@@ -9,7 +9,11 @@ def get_patterns():
     return db.query(sql)
 
 def get_pattern(pattern_id):
-    sql = """SELECT patterns.title, patterns.description, users.username
+    sql = """SELECT patterns.id, patterns.title, patterns.description, users.username, users.id user_id
              FROM patterns, users
              WHERE patterns.user_id = users.id AND patterns.id = ?"""
     return db.query(sql, [pattern_id])[0]
+
+def update_pattern(pattern_id, title, description):
+    sql = "UPDATE patterns SET title = ?, description = ? WHERE id = ?"
+    db.execute(sql, [title, description, pattern_id])

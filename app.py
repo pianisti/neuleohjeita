@@ -33,6 +33,21 @@ def create_pattern():
 
     return redirect("/")
 
+@app.route("/edit_pattern/<int:pattern_id>")
+def edit_pattern(pattern_id):
+    pattern = patterns.get_pattern(pattern_id)
+    return render_template("edit_pattern.html", pattern=pattern)
+
+@app.route("/update_pattern", methods=["POST"])
+def update_pattern():
+    pattern_id = request.form["pattern_id"]
+    title = request.form["title"]
+    description = request.form["description"]
+
+    patterns.update_pattern(pattern_id, title, description)
+
+    return redirect("/pattern/" + str(pattern_id))
+
 @app.route("/register")
 def register():
     return render_template("register.html")
