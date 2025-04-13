@@ -1,5 +1,12 @@
 # Neuleohjeita
 
+## Sovelluksen nykytilanne
+
+* Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
+* Käyttäjä pystyy lisäämään sovellukseen neuleohjeita.
+
+## Sovelluksen toiminnot
+
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
 * Käyttäjä pystyy lisäämään sovellukseen neuleohjeita. Lisäksi käyttäjä pystyy muokkaamaan ja poistamaan lisäämiään neuleohjeita.
 * Käyttäjä näkee sovellukseen lisätyt neuleohjeet. Käyttäjä näkee sekä itse lisäämänsä että muiden käyttäjien lisäämät neuleohjeet.
