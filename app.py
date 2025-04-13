@@ -48,6 +48,19 @@ def update_pattern():
 
     return redirect("/pattern/" + str(pattern_id))
 
+@app.route("/remove_pattern/<int:pattern_id>", methods=["GET", "POST"])
+def remove_pattern(pattern_id):
+    if request.method == "GET":
+        pattern = patterns.get_pattern(pattern_id)
+        return render_template("remove_pattern.html", pattern=pattern)
+
+    if request.method == "POST":
+        if "remove" in request.form:
+            patterns.remove_pattern(pattern_id)
+            return redirect("/")
+        else:
+            return redirect("/") #testinä
+
 @app.route("/register")
 def register():
     return render_template("register.html")

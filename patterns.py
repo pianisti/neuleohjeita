@@ -17,3 +17,7 @@ def get_pattern(pattern_id):
 def update_pattern(pattern_id, title, description):
     sql = "UPDATE patterns SET title = ?, description = ? WHERE id = ?"
     db.execute(sql, [title, description, pattern_id])
+
+def remove_pattern(pattern_id):
+    sql = "DELETE FROM patterns WHERE id = ?"
+    db.execute(sql, [pattern_id])
