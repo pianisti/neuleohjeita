@@ -11,7 +11,13 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    all_patterns = patterns.get_patterns()
+    return render_template("index.html", patterns=all_patterns)
+
+@app.route("/pattern/<int:pattern_id>")
+def show_pattern(pattern_id):
+    pattern = patterns.get_pattern(pattern_id)
+    return render_template("show_pattern.html", pattern=pattern)
 
 @app.route("/new_pattern")
 def new_patter():
