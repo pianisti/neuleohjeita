@@ -18,6 +18,16 @@ def index():
     all_patterns = patterns.get_patterns()
     return render_template("index.html", patterns=all_patterns)
 
+@app.route("/find_pattern")
+def find_pattern():
+    query = request.args.get("query")
+    if query:
+        results = patterns.find_patterns(query)
+    else:
+        query = ""
+        results = []
+    return render_template("find_pattern.html", query=query, results=results)
+
 @app.route("/pattern/<int:pattern_id>")
 def show_pattern(pattern_id):
     pattern = patterns.get_pattern(pattern_id)

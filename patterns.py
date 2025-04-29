@@ -22,3 +22,11 @@ def update_pattern(pattern_id, title, description):
 def remove_pattern(pattern_id):
     sql = "DELETE FROM patterns WHERE id = ?"
     db.execute(sql, [pattern_id])
+
+def find_patterns(query):
+    sql = """SELECT id, title
+             FROM patterns
+             WHERE title LIKE ? OR description LIKE ?
+             ORDER BY id DESC"""
+    like = "%" + query + "%"
+    return db.query(sql, [like, like])
