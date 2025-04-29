@@ -12,7 +12,8 @@ def get_pattern(pattern_id):
     sql = """SELECT patterns.id, patterns.title, patterns.description, users.username, users.id user_id
              FROM patterns, users
              WHERE patterns.user_id = users.id AND patterns.id = ?"""
-    return db.query(sql, [pattern_id])[0]
+    result = db.query(sql, [pattern_id])
+    return result[0] if result else None
 
 def update_pattern(pattern_id, title, description):
     sql = "UPDATE patterns SET title = ?, description = ? WHERE id = ?"
