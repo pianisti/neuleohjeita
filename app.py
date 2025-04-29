@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
@@ -36,11 +36,17 @@ def create_pattern():
 @app.route("/edit_pattern/<int:pattern_id>")
 def edit_pattern(pattern_id):
     pattern = patterns.get_pattern(pattern_id)
+    if pattern["user_id"] != session["user_id"]:
+        abort(403)
     return render_template("edit_pattern.html", pattern=pattern)
 
 @app.route("/update_pattern", methods=["POST"])
 def update_pattern():
     pattern_id = request.form["pattern_id"]
+    pattern = patterns.get_pattern(pattern_id)
+    if pattern["user_id"] != session["user_id"]:
+        abort(403)
+
     title = request.form["title"]
     description = request.form["description"]
 
@@ -50,8 +56,10 @@ def update_pattern():
 
 @app.route("/remove_pattern/<int:pattern_id>", methods=["GET", "POST"])
 def remove_pattern(pattern_id):
+    pattern = patterns.get_pattern(pattern_id)
+    if pattern["user_id"] != session["user_id"]:
+        abort(403)
     if request.method == "GET":
-        pattern = patterns.get_pattern(pattern_id)
         return render_template("remove_pattern.html", pattern=pattern)
 
     if request.method == "POST":
@@ -59,7 +67,7 @@ def remove_pattern(pattern_id):
             patterns.remove_pattern(pattern_id)
             return redirect("/")
         else:
-            return redirect("/") #testinä
+            return redirect("/pattern/" + str(pattern_id))
 
 @app.route("/register")
 def register():
