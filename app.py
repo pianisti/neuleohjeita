@@ -9,6 +9,10 @@ import patterns
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def require_login():
+    if "user_id" not in session:
+        abort(403)
+
 @app.route("/")
 def index():
     all_patterns = patterns.get_patterns()
@@ -23,10 +27,12 @@ def show_pattern(pattern_id):
 
 @app.route("/new_pattern")
 def new_patter():
+    require_login()
     return render_template("new_pattern.html")
 
 @app.route("/create_pattern", methods=["POST"])
 def create_pattern():
+    require_login()
     title = request.form["title"]
     description = request.form["description"]
     user_id = session["user_id"]
@@ -37,6 +43,7 @@ def create_pattern():
 
 @app.route("/edit_pattern/<int:pattern_id>")
 def edit_pattern(pattern_id):
+    require_login()
     pattern = patterns.get_pattern(pattern_id)
     if not pattern:
         abort(404)
@@ -46,6 +53,7 @@ def edit_pattern(pattern_id):
 
 @app.route("/update_pattern", methods=["POST"])
 def update_pattern():
+    require_login()
     pattern_id = request.form["pattern_id"]
     pattern = patterns.get_pattern(pattern_id)
     if not pattern:
@@ -62,6 +70,7 @@ def update_pattern():
 
 @app.route("/remove_pattern/<int:pattern_id>", methods=["GET", "POST"])
 def remove_pattern(pattern_id):
+    require_login()
     pattern = patterns.get_pattern(pattern_id)
     if not pattern:
         abort(404)
@@ -121,6 +130,7 @@ def login():
 
 @app.route("/logout")
 def logout():
-    del session["user_id"]
-    del session["username"]
+    if "user_id" in session:
+        del session["user_id"]
+        del session["username"]
     return redirect("/")
