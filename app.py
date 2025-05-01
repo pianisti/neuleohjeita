@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
 import patterns
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -17,6 +18,14 @@ def require_login():
 def index():
     all_patterns = patterns.get_patterns()
     return render_template("index.html", patterns=all_patterns)
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    patterns = users.get_patterns(user_id)
+    return render_template("show_user.html", user=user, patterns=patterns)
 
 @app.route("/find_pattern")
 def find_pattern():
