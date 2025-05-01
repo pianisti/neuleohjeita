@@ -36,7 +36,7 @@ def show_pattern(pattern_id):
     return render_template("show_pattern.html", pattern=pattern)
 
 @app.route("/new_pattern")
-def new_patter():
+def new_pattern():
     require_login()
     return render_template("new_pattern.html")
 
@@ -44,7 +44,11 @@ def new_patter():
 def create_pattern():
     require_login()
     title = request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
     description = request.form["description"]
+    if not description or len(description) > 1500:
+        abort(403)
     user_id = session["user_id"]
 
     patterns.add_pattern(title, description, user_id)
@@ -72,7 +76,11 @@ def update_pattern():
         abort(403)
 
     title = request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
     description = request.form["description"]
+    if not description or len(description) > 1500:
+        abort(403)
 
     patterns.update_pattern(pattern_id, title, description)
 
