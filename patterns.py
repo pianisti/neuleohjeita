@@ -1,8 +1,18 @@
 import db
 
-def add_pattern(title, description, user_id):
+def add_pattern(title, description, user_id, classes):
     sql = "INSERT INTO patterns (title, description, user_id) VALUES (?, ?, ?)"
     db.execute(sql, [title, description, user_id])
+
+    pattern_id = db.last_insert_id()
+
+    sql = "INSERT INTO pattern_classes (pattern_id, title, value) VALUES (?, ?, ?)"
+    for title, value in classes:
+        db.execute(sql, [pattern_id, title, value])
+
+def get_classes(pattern_id):
+    sql = "SELECT title, value FROM pattern_classes WHERE pattern_id = ?"
+    return db.query(sql, [pattern_id])
 
 def get_patterns():
     sql = "SELECT id, title FROM patterns ORDER BY id DESC"

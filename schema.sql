@@ -10,3 +10,10 @@ CREATE TABLE patterns (
     description TEXT,
     user_id INTEGER REFERENCES users
 );
+
+CREATE TABLE pattern_classes (
+    id INTEGER PRIMARY KEY,
+    pattern_id INTEGER REFERENCES patterns,
+    title TEXT,
+    value TEXT
+);

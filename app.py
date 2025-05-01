@@ -41,7 +41,8 @@ def show_pattern(pattern_id):
     pattern = patterns.get_pattern(pattern_id)
     if not pattern:
         abort(404)
-    return render_template("show_pattern.html", pattern=pattern)
+    classes = patterns.get_classes(pattern_id)
+    return render_template("show_pattern.html", pattern=pattern, classes=classes)
 
 @app.route("/new_pattern")
 def new_pattern():
@@ -59,7 +60,18 @@ def create_pattern():
         abort(403)
     user_id = session["user_id"]
 
-    patterns.add_pattern(title, description, user_id)
+    classes = []
+    level = request.form["level"]
+    if level:
+        classes.append(("Taso", level))
+    technique = request.form["technique"]
+    if technique:
+        classes.append(("Tekniikka", technique))
+    type = request.form["type"]
+    if type:
+        classes.append(("Tyyppi", type))
+
+    patterns.add_pattern(title, description, user_id, classes)
 
     return redirect("/")
 
