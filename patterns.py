@@ -44,6 +44,8 @@ def update_pattern(pattern_id, title, description):
     db.execute(sql, [title, description, pattern_id])
 
 def remove_pattern(pattern_id):
+    sql = "DELETE FROM pattern_classes WHERE pattern_id = ?"
+    db.execute(sql, [pattern_id])
     sql = "DELETE FROM patterns WHERE id = ?"
     db.execute(sql, [pattern_id])
 
