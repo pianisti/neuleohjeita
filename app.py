@@ -67,8 +67,11 @@ def create_pattern():
     for one_class in all_classes:
         value = request.form[f"{one_class}"]
         if value:
+            if value not in all_classes[one_class]:
+                abort(403)
+            if one_class not in all_classes:
+                abort(403)
             classes.append((f"{one_class}", value))
-
     patterns.add_pattern(title, description, user_id, classes)
 
     return redirect("/")
@@ -112,6 +115,10 @@ def update_pattern():
     for one_class in all_classes:
         value = request.form[f"{one_class}"]
         if value:
+            if value not in all_classes[one_class]:
+                abort(403)
+            if one_class not in all_classes:
+                abort(403)
             classes.append((f"{one_class}", value))
 
     patterns.update_pattern(pattern_id, title, description, classes)
