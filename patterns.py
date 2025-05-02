@@ -1,5 +1,19 @@
 import db
 
+def get_all_classes():
+    sql = "SELECT title, value, element FROM classes ORDER BY id"
+    result = db.query(sql)
+
+    classes = {}
+    elements = {}
+    for title, value, element in result:
+        classes[title] = []
+    for title, value, element in result:
+        classes[title].append(value)
+        elements[title] = element
+
+    return classes, elements
+
 def add_pattern(title, description, user_id, classes):
     sql = "INSERT INTO patterns (title, description, user_id) VALUES (?, ?, ?)"
     db.execute(sql, [title, description, user_id])

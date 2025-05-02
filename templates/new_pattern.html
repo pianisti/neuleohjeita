@@ -16,27 +16,22 @@
       Sisältö: <br />
       <textarea name="description" rows="8" cols="60" maxlength="1500" required></textarea>
     </p>
+    {% for class in classes %}
     <p>
-      Taitotaso: <br />
-      <input type="radio" name="level" value="Aloittelija" /> Aloittelija
-      <input type="radio" name="level" value="Harrastaja" /> Harrastaja
-      <input type="radio" name="level" value="Taituri" /> Taituri
-    </p>
-    <p>
-      Tekniikka: <br />
-      <input type="radio" name="technique" value="Neulominen" /> Neulominen
-      <input type="radio" name="technique" value="Virkkaus" /> Virkkaus
-    </p>
-    <p>
-      Tyyppi: <br />
-      <select name="type">
-        <option value="">(valitse)</option>
-        <option value="Asusteet">Asusteet</option>
-        <option value="Sisustus">Sisustus</option>
-        <option value="Vaatteet">Vaatteet</option>
-        <option value="Sekalaista">Sekalaista</option>
+      {{ class }}: <br />
+      {% if elements[class] == "select" %}
+      <select name="{{ class }}">
+      {% for option in classes[class] %}
+        <option value="{{ option }}">{{ option }}</option>
+      {% endfor %}
       </select>
+      {% else %}
+        {% for option in classes[class] %}
+        <input type="{{ elements[class] }}" name="{{ class }}" value="{{ option }}" /> {{ option }}
+        {% endfor %}
+      {% endif %}
     </p>
+    {% endfor %}
     <input type="submit" value="Luo ohje" />
   </form>
 </body>

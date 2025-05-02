@@ -11,6 +11,13 @@ CREATE TABLE patterns (
     user_id INTEGER REFERENCES users
 );
 
+CREATE TABLE classes (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    value TEXT,
+    element TEXT
+);
+
 CREATE TABLE pattern_classes (
     id INTEGER PRIMARY KEY,
     pattern_id INTEGER REFERENCES patterns,
