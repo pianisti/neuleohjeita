@@ -81,7 +81,13 @@ def edit_pattern(pattern_id):
         abort(404)
     if pattern["user_id"] != session["user_id"]:
         abort(403)
-    return render_template("edit_pattern.html", pattern=pattern)
+
+    all_classes, elements = patterns.get_all_classes()
+    classes = {}
+    for entry in patterns.get_classes(pattern_id):
+        classes[entry["title"]] = entry["value"]
+
+    return render_template("edit_pattern.html", pattern=pattern, all_classes=all_classes, classes=classes, elements=elements)
 
 @app.route("/update_pattern", methods=["POST"])
 def update_pattern():
@@ -100,7 +106,15 @@ def update_pattern():
     if not description or len(description) > 1500:
         abort(403)
 
-    patterns.update_pattern(pattern_id, title, description)
+    all_classes, elements = patterns.get_all_classes()
+
+    classes = []
+    for one_class in all_classes:
+        value = request.form[f"{one_class}"]
+        if value:
+            classes.append((f"{one_class}", value))
+
+    patterns.update_pattern(pattern_id, title, description, classes)
 
     return redirect("/pattern/" + str(pattern_id))
 

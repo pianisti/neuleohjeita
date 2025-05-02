@@ -39,9 +39,16 @@ def get_pattern(pattern_id):
     result = db.query(sql, [pattern_id])
     return result[0] if result else None
 
-def update_pattern(pattern_id, title, description):
+def update_pattern(pattern_id, title, description, classes):
     sql = "UPDATE patterns SET title = ?, description = ? WHERE id = ?"
     db.execute(sql, [title, description, pattern_id])
+
+    sql = "DELETE FROM pattern_classes WHERE pattern_id = ?"
+    db.execute(sql, [pattern_id])
+
+    sql = "INSERT INTO pattern_classes (pattern_id, title, value) VALUES (?, ?, ?)"
+    for title, value in classes:
+        db.execute(sql, [pattern_id, title, value])
 
 def remove_pattern(pattern_id):
     sql = "DELETE FROM pattern_classes WHERE pattern_id = ?"

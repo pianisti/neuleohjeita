@@ -17,6 +17,30 @@
       <textarea name="description" rows="8" cols="60" maxlength="1500" required>{{ pattern.description }}</textarea>
     </p>
     <input type="hidden" name="pattern_id" value="{{ pattern.id }}" />
+    {% for class in all_classes %}
+    <p>
+      {{ class }}: <br />
+      {% if elements[class] == "select" %}
+      <select name="{{ class }}">
+      {% for option in all_classes[class] %}
+        {% if classes[class] == option %}
+        <option value="{{ option }}" selected>{{ option }}</option>
+        {% else %}
+        <option value="{{ option }}">{{ option }}</option>
+        {% endif %}
+      {% endfor %}
+      </select>
+      {% else %}
+      {% for option in all_classes[class] %}
+        {% if classes[class] == option %}
+        <input type="{{ elements[class] }}" name="{{ class }}" value="{{ option }}" checked/> {{ option }}
+        {% else %}
+        <input type="{{ elements[class] }}" name="{{ class }}" value="{{ option }}" /> {{ option }}
+        {% endif %}
+      {% endfor %}
+      {% endif %}
+    </p>
+    {% endfor %}
     <input type="submit" value="Päivitä ohje" />
   </form>
 </body>
