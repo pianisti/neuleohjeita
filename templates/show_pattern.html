@@ -29,6 +29,27 @@
     </ul>
   </p>
   {% endif %}
+  <h2>Kommentit</h2>
+  {% for comment in comments %}
+  <p>
+    <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>:
+  </p>
+  <p>
+    {{ comment.comment }}
+  </p>
+  <hr />
+  {% endfor %}
+  {%if session.user_id %}
+  <h2>Uusi kommentti</h2>
+  <form action="/create_comment" method="post">
+    <p>
+      Kommentti: <br />
+      <textarea name="comment" rows="5" cols="40" maxlength="500" required></textarea>
+    </p>
+    <input type="hidden" name="pattern_id" value="{{ pattern.id }}" />
+    <input type="submit" value="Lähetä" />
+  </form>
+  {% endif %}
   <p>
     <a href="/">Takaisin</a>
   </p>

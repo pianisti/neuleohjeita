@@ -42,13 +42,32 @@ def show_pattern(pattern_id):
     if not pattern:
         abort(404)
     classes = patterns.get_classes(pattern_id)
-    return render_template("show_pattern.html", pattern=pattern, classes=classes)
+    comments = patterns.get_comments(pattern_id)
+    return render_template("show_pattern.html", pattern=pattern, classes=classes, comments=comments)
 
 @app.route("/new_pattern")
 def new_pattern():
     require_login()
     classes, elements = patterns.get_all_classes()
     return render_template("new_pattern.html", classes=classes, elements=elements)
+
+@app.route("/create_comment", methods=["POST"])
+def create_comment():
+    require_login()
+
+    comment = request.form["comment"]
+    if not comment or len(comment) > 500:
+        abort(403)
+    pattern_id = request.form["pattern_id"]
+    pattern = patterns.get_pattern(pattern_id)
+    print(pattern_id)
+    if not pattern:
+        abort(403)
+    user_id = session["user_id"]
+
+    patterns.add_comment(pattern_id, user_id, comment)
+
+    return redirect("/pattern/" + str(pattern_id))
 
 @app.route("/create_pattern", methods=["POST"])
 def create_pattern():

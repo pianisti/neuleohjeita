@@ -24,6 +24,17 @@ def add_pattern(title, description, user_id, classes):
     for title, value in classes:
         db.execute(sql, [pattern_id, title, value])
 
+def add_comment(pattern_id, user_id, comment):
+    sql = "INSERT INTO comments (pattern_id, user_id, comment) VALUES (?, ?, ?)"
+    db.execute(sql, [pattern_id, user_id, comment])
+
+def get_comments(pattern_id):
+    sql = """SELECT comments.comment, comments.user_id, users.id, users.username
+             FROM comments, users
+             WHERE comments.pattern_id = ? AND comments.user_id = users.id
+             ORDER BY comments.id"""
+    return db.query(sql, [pattern_id])
+
 def get_classes(pattern_id):
     sql = "SELECT title, value FROM pattern_classes WHERE pattern_id = ?"
     return db.query(sql, [pattern_id])
