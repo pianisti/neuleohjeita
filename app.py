@@ -152,6 +152,21 @@ def add_image():
     patterns.add_image(pattern_id, image)
     return redirect("/images/" + str(pattern_id))
 
+@app.route("/remove_images", methods=["POST"])
+def remove_images():
+    require_login()
+    pattern_id = request.form["pattern_id"]
+    pattern = patterns.get_pattern(pattern_id)
+    if not pattern:
+        abort(404)
+    if pattern["user_id"] != session["user_id"]:
+        abort(403)
+
+    for image_id in request.form.getlist("image_id"):
+        patterns.remove_image(pattern_id, image_id)
+
+    return redirect("/images/" + str(pattern_id))
+
 @app.route("/update_pattern", methods=["POST"])
 def update_pattern():
     require_login()
