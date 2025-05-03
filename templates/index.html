@@ -8,27 +8,25 @@
 <body>
   <h1>Neuleohjeita</h1>
 
-  {% if session.username %}
+  {% if session.user_id %}
   <p>
-    Olet kirjautunut nimellä {{ session.username }}, id-numerosi on {{ session.user_id }}
-  </p>
-  <p>
-    <a href="/logout">Kirjaudu ulos</a>
-  </p>
-  <p>
-    <a href="/new_pattern">Uusi ohje</a>
-  </p>
-  {% else %}
-  <p>
-    <a href="/login">Kirjaudu sisään</a>
-    <a href="/register">Luo tunnus</a>
+    Olet kirjautunut nimellä {{ session.username }}
   </p>
   {% endif %}
+
   <p>
-    <a href="/find_pattern">Etsi ohje</a>
+    <a href="/find_pattern">Etsi ohje</a> |
+  {% if session.user_id %}
+    <a href="/new_pattern">Uusi ohje</a> |
+    <a href="/logout">Kirjaudu ulos</a>
+  {% else %}
+    <a href="/login">Kirjaudu sisään</a> |
+    <a href="/register">Luo tunnus</a>
+  {% endif %}
   </p>
 
   <h2>Ohjeet</h2>
+
   <ul>
     {% for pattern in patterns %}
     <li><a href=/pattern/{{ pattern.id }}>{{ pattern.title }}</a></li>
