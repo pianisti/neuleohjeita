@@ -1,33 +1,22 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
- <title>Etsi ohje</title>
-</head>
+{% block title %}Etsi ohje{% endblock %}
 
-<body>
-  <h1>Etsi ohje</h1>
-
-  <form action="/find_pattern" method="get">
-    <p>
-      Hakusana: <input type="text" name="query" value="{{ query }}">
-    </p>
-    <input type="submit" value="Lähetä">
-  </form>
-
+{% block content %}
+<h2>Etsi ohje</h2>
+<form action="/find_pattern" method="get">
   <p>
-    <a href="/">Takaisin</a>
+    Hakusana: <input type="text" name="query" value="{{ query }}">
   </p>
+  <input type="submit" value="Lähetä">
+</form>
 
-  {% if query %}
-  <h2>Tulokset</h2>
-
-  <ul>
-    {% for pattern in results %}
-    <li><a href="/pattern/{{ pattern.id }}">{{ pattern.title }}</a></li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-</body>
-
-</html>
+{% if query %}
+<h3>Tulokset</h3>
+<ul>
+  {% for pattern in results %}
+  <li><a href="/pattern/{{ pattern.id }}">{{ pattern.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

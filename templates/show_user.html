@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Käyttäjä {{ user.username }}</title>
-</head>
+{% block title %}Käyttäjä {{ user.username }}{% endblock %}
 
-<body>
-  <h1>Käyttäjä {{ user.username }}</h1>
-  <p>
-    Käyttäjän {{ user.username }} julkaisemien ohjeiden määrä: {{ patterns | count }}
-  </p>
-  <h2>Ohjeet</h2>
-  <ul>
-    {% for pattern in patterns %}
-    <li><a href="/pattern/{{ pattern.id }}">{{ pattern.title }}</a></li>
-    {% endfor %}
-  </ul>
-  <p>
-    <a href="/">Takaisin</a>
-  </p>
-</body>
-
-</html>
+{% block content %}
+<h2>Käyttäjä {{ user.username }}</h2>
+<p>
+  Käyttäjän {{ user.username }} julkaisemien ohjeiden määrä: {{ patterns | count }}
+</p>
+<h3>Ohjeet</h3>
+<ul>
+  {% for pattern in patterns %}
+  <li><a href="/pattern/{{ pattern.id }}">{{ pattern.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}

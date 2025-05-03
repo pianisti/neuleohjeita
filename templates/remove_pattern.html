@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Ohjeen poisto</title>
-</head>
+{% block title %}Ohjeen poisto{% endblock %}
 
-<body>
-  <h1>Ohjeen poisto</h1>
-  <p>Ohje: {{ pattern.title }}</p>
-  <p>Haluatko varmasti poistaa ohjeen?</p>
-  <form action="/remove_pattern/{{ pattern.id }}" method="post">
-    <input type="submit" name="remove" value="Poista ohje">
-    <input type="submit" name="back" value="Palaa takaisin">
-  </form>
-</body>
-
-</html>
+{% block content %}
+<h2>Ohjeen poisto</h2>
+<p>Ohje: {{ pattern.title }}</p>
+<p>Haluatko varmasti poistaa ohjeen?</p>
+<form action="/remove_pattern/{{ pattern.id }}" method="post">
+  <input type="submit" name="remove" value="Poista ohje">
+  <input type="submit" name="back" value="Palaa takaisin">
+</form>
+{% endblock %}

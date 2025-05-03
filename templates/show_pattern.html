@@ -1,63 +1,52 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>{{ pattern.title }}</title>
-</head>
+{% block title %}{{ pattern.title }}{% endblock %}
 
-<body>
-  <h1>{{ pattern.title }}</h1>
-  {% if session.user_id == pattern.user_id %}
-  <p>
-    <a href="/edit_pattern/{{ pattern.id }}">Muokkaa</a>
-    <a href="/remove_pattern/{{ pattern.id }}">Poista</a>
-    <a href="/images/{{ pattern.id }}">Kuvat</a>
-  </p>
-  {% endif %}
-  <p>
-    Tekijä: <a href="/user/{{ pattern.user_id }}">{{ pattern.username }}</a>
-  </p>
-  <p>
-    {{ pattern.description }}
-  </p>
-  {% if classes %}
-  <p>
-    Luokat:
-    <ul>
-    {% for class in classes %}
-    <li>{{ class.title }}: {{ class.value }}</li>
-    {% endfor %}
-    </ul>
-  </p>
-  {% endif %}
-  {% for image in images %}
-  <img src="/image/{{ image.id }}" />
+{% block content %}
+<h2>{{ pattern.title }}</h2>
+{% if session.user_id == pattern.user_id %}
+<p>
+  <a href="/edit_pattern/{{ pattern.id }}">Muokkaa</a> |
+  <a href="/remove_pattern/{{ pattern.id }}">Poista</a> |
+  <a href="/images/{{ pattern.id }}">Kuvat</a>
+</p>
+{% endif %}
+<p>
+  Tekijä: <a href="/user/{{ pattern.user_id }}">{{ pattern.username }}</a>
+</p>
+{% if classes %}
+<p>
+  |
+  {% for class in classes %}
+  {{ class.title }}: {{ class.value }} |
   {% endfor %}
-  <h2>Kommentit</h2>
-  {% for comment in comments %}
+</p>
+{% endif %}
+<p>
+  {{ pattern.description }}
+</p>
+{% for image in images %}
+<img src="/image/{{ image.id }}" />
+{% endfor %}
+<h3>Kommentit</h3>
+{% for comment in comments %}
+<p>
+  <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>:
+</p>
+<p>
+  {{ comment.comment }}
+</p>
+<hr />
+{% endfor %}
+{%if session.user_id %}
+<h3>Uusi kommentti</h3>
+<form action="/create_comment" method="post">
   <p>
-    <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>:
-  </p>
-  <p>
-    {{ comment.comment }}
-  </p>
-  <hr />
-  {% endfor %}
-  {%if session.user_id %}
-  <h2>Uusi kommentti</h2>
-  <form action="/create_comment" method="post">
-    <p>
-      Kommentti: <br />
+    Kommentti: <br />
       <textarea name="comment" rows="5" cols="40" maxlength="500" required></textarea>
-    </p>
-    <input type="hidden" name="pattern_id" value="{{ pattern.id }}" />
-    <input type="submit" value="Lähetä" />
-  </form>
-  {% endif %}
-  <p>
-    <a href="/">Takaisin</a>
   </p>
-
-</body>
-
-</html>
+  <input type="hidden" name="pattern_id" value="{{ pattern.id }}" />
+  <input type="submit" value="Lähetä" />
+</form>
+{% endif %}
+{% endblock %}

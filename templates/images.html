@@ -1,44 +1,34 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Ohjeen kuvat</title>
-</head>
+{% block title %}Ohjeen kuvat{% endblock %}
 
-<body>
-  <h1>Ohjeen kuvat</h1>
+{% block content %}
+<h2>Ohjeen kuvat</h2>
+<p>
+  Ohjeessa olevien kuvien määrä: {{ images | count }}
+</p>
 
+<form action="/remove_images" method="post">
+  {% for image in images %}
+  <input type="checkbox" name="image_id" value="{{ image.id }}">
+  <img src="/image/{{ image.id }}" />
+  <br />
+  {% endfor %}
+  <input type="hidden" name="pattern_id" value="{{ pattern.id }}">
   <p>
-    Ohjeessa olevien kuvien määrä: {{ images | count }}
+    <input type="submit" value="Poista valitut" />
   </p>
+</form>
 
-  <form action="/remove_images" method="post">
-    {% for image in images %}
-    <input type="checkbox" name="image_id" value="{{ image.id }}">
-    <img src="/image/{{ image.id }}" />
-    <br />
-    {% endfor %}
-    <input type="hidden" name="pattern_id" value="{{ pattern.id }}">
-    <p>
-      <input type="submit" value="Poista valitut" />
-    </p>
-  </form>
-  
-  <h2>Lisää uusi kuva</h2>
+<h3>Lisää uusi kuva</h3>
+<p>
+  Sallitut tiedostomuodot: .jpg
+</p>
+<form action="/add_image" method="post" enctype="multipart/form-data">
   <p>
-    Sallitut tiedostomuodot: .jpg
+    Kuva: <input type="file" name="image" accept=".jpg" />
   </p>
-  <form action="/add_image" method="post" enctype="multipart/form-data">
-    <p>
-      Kuva: <input type="file" name="image" accept=".jpg" />
-    </p>
-    <input type="hidden" name="pattern_id" value="{{ pattern.id }}">
-    <input type="submit" value="Lähetä" />
-  </form>
-
-  <p>
-    <a href="/pattern/{{ pattern.id }}">Takaisin</a>
-  </p>
-</body>
-
-</html>
+  <input type="hidden" name="pattern_id" value="{{ pattern.id }}">
+  <input type="submit" value="Lähetä" />
+</form>
+{% endblock %}
