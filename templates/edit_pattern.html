@@ -41,6 +41,7 @@
   <p>
     Voit hallinnoida ohjeen kuvia ohjeen omalta sivulta.
   </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Päivitä ohje" />
 </form>
 {% endblock %}
