@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import abort, redirect, render_template, request, session
+from flask import abort, make_response, redirect, render_template, request, session
 import db
 import config
 import patterns
@@ -43,7 +43,18 @@ def show_pattern(pattern_id):
         abort(404)
     classes = patterns.get_classes(pattern_id)
     comments = patterns.get_comments(pattern_id)
-    return render_template("show_pattern.html", pattern=pattern, classes=classes, comments=comments)
+    images = patterns.get_images(pattern_id)
+    return render_template("show_pattern.html", pattern=pattern, classes=classes, comments=comments, images=images)
+
+@app.route("/image/<int:image_id>")
+def show_image(image_id):
+    image = patterns.get_image(image_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
 
 @app.route("/new_pattern")
 def new_pattern():
@@ -60,7 +71,6 @@ def create_comment():
         abort(403)
     pattern_id = request.form["pattern_id"]
     pattern = patterns.get_pattern(pattern_id)
-    print(pattern_id)
     if not pattern:
         abort(403)
     user_id = session["user_id"]
@@ -110,6 +120,37 @@ def edit_pattern(pattern_id):
         classes[entry["title"]] = entry["value"]
 
     return render_template("edit_pattern.html", pattern=pattern, all_classes=all_classes, classes=classes, elements=elements)
+
+@app.route("/images/<int:pattern_id>")
+def edit_images(pattern_id):
+    require_login()
+    pattern = patterns.get_pattern(pattern_id)
+    if not pattern:
+        abort(404)
+    if pattern["user_id"] != session["user_id"]:
+        abort(403)
+    images = patterns.get_images(pattern_id)
+    return render_template("images.html", pattern=pattern, images=images)
+
+@app.route("/add_image", methods=["POST"])
+def add_image():
+    require_login()
+    pattern_id = request.form["pattern_id"]
+    pattern = patterns.get_pattern(pattern_id)
+    if not pattern:
+        abort(404)
+    if pattern["user_id"] != session["user_id"]:
+        abort(403)
+    file = request.files["image"]
+    if not file.filename.endswith(".jpg"):
+        return "VIRHE: väärä tiedostomuoto"
+
+    image = file.read()
+    if len(image) > 100 * 1024:
+        return "VIRHE: liian suuri kuva"
+
+    patterns.add_image(pattern_id, image)
+    return redirect("/images/" + str(pattern_id))
 
 @app.route("/update_pattern", methods=["POST"])
 def update_pattern():

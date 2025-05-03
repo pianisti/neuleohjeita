@@ -11,6 +11,7 @@
   <p>
     <a href="/edit_pattern/{{ pattern.id }}">Muokkaa</a>
     <a href="/remove_pattern/{{ pattern.id }}">Poista</a>
+    <a href="/images/{{ pattern.id }}">Kuvat</a>
   </p>
   {% endif %}
   <p>
@@ -29,6 +30,9 @@
     </ul>
   </p>
   {% endif %}
+  {% for image in images %}
+  <img src="/image/{{ image.id }}" />
+  {% endfor %}
   <h2>Kommentit</h2>
   {% for comment in comments %}
   <p>

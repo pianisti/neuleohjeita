@@ -35,6 +35,19 @@ def get_comments(pattern_id):
              ORDER BY comments.id"""
     return db.query(sql, [pattern_id])
 
+def get_images(pattern_id):
+    sql = "SELECT id FROM images WHERE pattern_id = ?"
+    return db.query(sql, [pattern_id])
+
+def add_image(pattern_id, image):
+    sql = "INSERT INTO images (pattern_id, image) VALUES (?, ?)"
+    db.execute(sql, [pattern_id, image])
+
+def get_image(image_id):
+    sql = "SELECT image FROM images WHERE id = ?"
+    result = db.query(sql, [image_id])
+    return result[0][0] if result else None
+
 def get_classes(pattern_id):
     sql = "SELECT title, value FROM pattern_classes WHERE pattern_id = ?"
     return db.query(sql, [pattern_id])
