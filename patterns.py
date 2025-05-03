@@ -79,6 +79,10 @@ def update_pattern(pattern_id, title, description, classes):
         db.execute(sql, [pattern_id, title, value])
 
 def remove_pattern(pattern_id):
+    sql = "DELETE FROM comments WHERE pattern_id = ?"
+    db.execute(sql, [pattern_id])
+    sql = "DELETE FROM images WHERE pattern_id = ?"
+    db.execute(sql, [pattern_id])
     sql = "DELETE FROM pattern_classes WHERE pattern_id = ?"
     db.execute(sql, [pattern_id])
     sql = "DELETE FROM patterns WHERE id = ?"
