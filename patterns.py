@@ -21,15 +21,18 @@ def add_pattern(title, description, user_id, classes):
     pattern_id = db.last_insert_id()
 
     sql = "INSERT INTO pattern_classes (pattern_id, title, value) VALUES (?, ?, ?)"
-    for title, value in classes:
-        db.execute(sql, [pattern_id, title, value])
+    for class_title, class_value in classes:
+        db.execute(sql, [pattern_id, class_title, class_value])
 
 def add_comment(pattern_id, user_id, comment):
     sql = "INSERT INTO comments (pattern_id, user_id, comment) VALUES (?, ?, ?)"
     db.execute(sql, [pattern_id, user_id, comment])
 
 def get_comments(pattern_id):
-    sql = """SELECT comments.comment, comments.user_id, users.id, users.username
+    sql = """SELECT comments.comment,
+                    comments.user_id,
+                    users.id,
+                    users.username
              FROM comments, users
              WHERE comments.pattern_id = ? AND comments.user_id = users.id
              ORDER BY comments.id"""
@@ -64,7 +67,11 @@ def get_patterns():
     return db.query(sql)
 
 def get_pattern(pattern_id):
-    sql = """SELECT patterns.id, patterns.title, patterns.description, users.username, users.id user_id
+    sql = """SELECT patterns.id,
+                    patterns.title,
+                    patterns.description,
+                    users.username,
+                    users.id user_id
              FROM patterns, users
              WHERE patterns.user_id = users.id AND patterns.id = ?"""
     result = db.query(sql, [pattern_id])
@@ -78,8 +85,8 @@ def update_pattern(pattern_id, title, description, classes):
     db.execute(sql, [pattern_id])
 
     sql = "INSERT INTO pattern_classes (pattern_id, title, value) VALUES (?, ?, ?)"
-    for title, value in classes:
-        db.execute(sql, [pattern_id, title, value])
+    for class_title, class_value in classes:
+        db.execute(sql, [pattern_id, class_title, class_value])
 
 def remove_pattern(pattern_id):
     sql = "DELETE FROM comments WHERE pattern_id = ?"

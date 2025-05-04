@@ -37,8 +37,8 @@ def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    patterns = users.get_patterns(user_id)
-    return render_template("show_user.html", user=user, patterns=patterns)
+    user_patterns = users.get_patterns(user_id)
+    return render_template("show_user.html", user=user, patterns=user_patterns)
 
 @app.route("/find_pattern")
 def find_pattern():
@@ -58,7 +58,8 @@ def show_pattern(pattern_id):
     classes = patterns.get_classes(pattern_id)
     comments = patterns.get_comments(pattern_id)
     images = patterns.get_images(pattern_id)
-    return render_template("show_pattern.html", pattern=pattern, classes=classes, comments=comments, images=images)
+    return render_template("show_pattern.html", pattern=pattern,
+                           classes=classes, comments=comments, images=images)
 
 @app.route("/image/<int:image_id>")
 def show_image(image_id):
@@ -136,7 +137,8 @@ def edit_pattern(pattern_id):
     for entry in patterns.get_classes(pattern_id):
         classes[entry["title"]] = entry["value"]
 
-    return render_template("edit_pattern.html", pattern=pattern, all_classes=all_classes, classes=classes, elements=elements)
+    return render_template("edit_pattern.html", pattern=pattern,
+                           all_classes=all_classes, classes=classes, elements=elements)
 
 @app.route("/images/<int:pattern_id>")
 def edit_images(pattern_id):
@@ -242,8 +244,7 @@ def remove_pattern(pattern_id):
         if "remove" in request.form:
             patterns.remove_pattern(pattern_id)
             return redirect("/")
-        else:
-            return redirect("/pattern/" + str(pattern_id))
+        return redirect("/pattern/" + str(pattern_id))
 
 @app.route("/register")
 def register():
@@ -281,9 +282,8 @@ def login():
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
-        else:
-            flash("VIRHE: Antamasi tunnus tai salasana on väärä")
-            return redirect("/login")
+        flash("VIRHE: Antamasi tunnus tai salasana on väärä")
+        return redirect("/login")
 
 @app.route("/logout")
 def logout():
