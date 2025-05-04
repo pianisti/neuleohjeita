@@ -1,6 +1,29 @@
 body {
   margin: auto;
-  max-width: 50em;
+  max-width: 40em;
   font-family: sans-serif;
-  background-color: lavenderblush;
+  background-color: cadetblue;
+}
+
+.header {
+  background-color: antiquewhite;
+  color: black;
+  padding: 1em;
+  margin: 0.5em 0;
+}
+
+.nav {
+  background-color: antiquewhite;
+  padding: 0.5em 1em;
+  margin: 0.5em 0;
+}
+
+.content {
+  background-color: antiquewhite;
+  padding: 0.5em;
+  margin: 0.5em 0;
+}
+
+h1,h2 {
+  margin: 0;
 }

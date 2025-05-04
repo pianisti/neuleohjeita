@@ -7,27 +7,30 @@
 </head>
 
 <body>
-  <h1>Neuleohjeita</h1>
-
+  <div class="header">
+    <h1>Neuleohjeita</h1>
+  </div>
   {% if session.user_id %}
   <p>
     Olet kirjautunut nimellä {{ session.username }}
   </p>
   {% endif %}
-
-  <p>
-    <a href="/">Etusivu</a> |
-    <a href="/find_pattern">Etsi ohje</a> |
-  {% if session.user_id %}
-    <a href="/new_pattern">Uusi ohje</a> |
-    <a href="/logout">Kirjaudu ulos</a>
-  {% else %}
-    <a href="/login">Kirjaudu sisään</a> |
-    <a href="/register">Luo tunnus</a>
-  {% endif %}
-  </p>
-
-  {% block content %}{% endblock %}
+  <div class="nav">
+    <p>
+      <a href="/">Etusivu</a> |
+      <a href="/find_pattern">Etsi ohje</a> |
+    {% if session.user_id %}
+      <a href="/new_pattern">Uusi ohje</a> |
+      <a href="/logout">Kirjaudu ulos</a>
+    {% else %}
+      <a href="/login">Kirjaudu sisään</a> |
+      <a href="/register">Luo tunnus</a>
+    {% endif %}
+    </p>
+  </div>
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
 </body>
 
 </html>
