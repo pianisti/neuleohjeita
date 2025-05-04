@@ -3,7 +3,8 @@
 {% block title %}Ohjeen kuvat{% endblock %}
 
 {% block content %}
-<h2>Ohjeen kuvat</h2>
+<h2>{{ pattern.title }}</h2>
+<h3>Ohjeen kuvat</h3>
 <p>
   Ohjeessa olevien kuvien määrä: {{ images | count }}
 </p>
@@ -33,4 +34,7 @@
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Lähetä" />
 </form>
+<p>
+  <a href="/pattern/{{ pattern.id }}">Takaisin ohjeeseen</a>
+</p>
 {% endblock %}

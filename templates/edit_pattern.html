@@ -3,7 +3,8 @@
 {% block title %}Ohjeen muokkaus{% endblock %}
 
 {% block content %}
-<h2>Ohjeen muokkaus</h2>
+<h2>{{ pattern.title }}</h2>
+<h3>Ohjeen muokkaus</h3>
 <form action="/update_pattern" method="post">
   <p>
     Otsikko: <br />
@@ -44,4 +45,7 @@
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Päivitä ohje" />
 </form>
+<p>
+  <a href="/pattern/{{ pattern.id }}">Takaisin ohjeeseen</a>
+</p>
 {% endblock %}

@@ -3,7 +3,8 @@
 {% block title %}Ohjeen poisto{% endblock %}
 
 {% block content %}
-<h2>Ohjeen poisto</h2>
+<h2>{{ pattern.title }}</h2>
+<h3>Ohjeen poisto</h3>
 <p>Ohje: {{ pattern.title }}</p>
 <p>Haluatko varmasti poistaa ohjeen?</p>
 <form action="/remove_pattern/{{ pattern.id }}" method="post">
