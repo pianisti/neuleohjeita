@@ -18,17 +18,19 @@
   </div>
   {% endif %}
   <div class="nav">
-    <p>
-      <a href="/">Etusivu</a> |
-      <a href="/find_pattern">Etsi ohje</a> |
-    {% if session.user_id %}
-      <a href="/new_pattern">Uusi ohje</a> |
-      <a href="/logout">Kirjaudu ulos</a>
-    {% else %}
-      <a href="/login">Kirjaudu sisään</a> |
-      <a href="/register">Luo tunnus</a>
-    {% endif %}
-    </p>
+    <nav>
+      <ul>
+        <li><a href="/">Etusivu</a></li>
+        <li><a href="/find_pattern">Etsi ohje</a></li>
+        {% if session.user_id %}
+        <li><a href="/new_pattern">Uusi ohje</a></li>
+        <li><a href="/logout">Kirjaudu ulos</a></li>
+        {% else %}
+        <li><a href="/login">Kirjaudu sisään</a></li>
+        <li><a href="/register">Luo tunnus</a></li>
+        {% endif %}
+      </ul>
+    </nav>
   </div>
   <div class="content">
   {% for message in get_flashed_messages() %}
