@@ -4,9 +4,10 @@
 
 {% block content %}
 <h2>Ohjeet</h2>
-<ul>
-  {% for pattern in patterns %}
-  <li><a href=/pattern/{{ pattern.id }}>{{ pattern.title }}</a></li>
-  {% endfor %}
-</ul>
+{% for pattern in patterns %}
+<div class="pattern">
+  <a href=/pattern/{{ pattern.id }}>{{ pattern.title }}</a> <br />
+  Tekijä: <a href=/user/{{ pattern.user_id }}>{{ pattern.username }}</a>
+</div>
+{% endfor %}
 {% endblock %}

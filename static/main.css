@@ -1,6 +1,6 @@
 body {
   margin: auto;
-  max-width: 40em;
+  max-width: 45em;
   font-family: sans-serif;
   background-color: cadetblue;
 }
@@ -22,6 +22,12 @@ body {
   background-color: antiquewhite;
   padding: 0.5em;
   margin: 0.5em 0;
+}
+
+.pattern {
+  border: 2px solid cadetblue;
+  margin: 1em;
+  padding: 0.2em 0.5em;
 }
 
 h1,h2 {
