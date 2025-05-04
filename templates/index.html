@@ -6,8 +6,8 @@
 <h2>Ohjeet</h2>
 {% for pattern in patterns %}
 <div class="pattern">
-  <a href=/pattern/{{ pattern.id }}>{{ pattern.title }}</a> <br />
-  Tekijä: <a href=/user/{{ pattern.user_id }}>{{ pattern.username }}</a>
+  <a href="/pattern/{{ pattern.id }}">{{ pattern.title }}</a> <br />
+  Tekijä: <a href="/user/{{ pattern.user_id }}">{{ pattern.username }}</a>
 </div>
 {% endfor %}
 {% endblock %}

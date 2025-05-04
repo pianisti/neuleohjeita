@@ -57,7 +57,7 @@ def get_classes(pattern_id):
     return db.query(sql, [pattern_id])
 
 def get_patterns():
-    sql = """SELECT patterns.id, patterns.title, users.id, users.username
+    sql = """SELECT patterns.id, patterns.user_id, patterns.title, users.id, users.username
              FROM patterns, users
              WHERE patterns.user_id = users.id
              ORDER BY patterns.id DESC"""
