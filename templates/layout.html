@@ -11,9 +11,11 @@
     <h1>Neuleohjeita</h1>
   </div>
   {% if session.user_id %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}
-  </p>
+  <div class="login_info">
+    <p>
+      Olet kirjautuneena nimellä <a href="/user/{{ session.user_id}}">{{ session.username }}</a>
+    </p>
+  </div>
   {% endif %}
   <div class="nav">
     <p>

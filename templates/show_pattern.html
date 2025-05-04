@@ -23,7 +23,7 @@
 </p>
 {% endif %}
 <p>
-  {{ pattern.description }}
+  {{ pattern.description | show_lines }}
 </p>
 {% for image in images %}
 <img src="/image/{{ image.id }}" />
@@ -34,7 +34,7 @@
   <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>:
 </p>
 <p>
-  {{ comment.comment }}
+  {{ comment.comment | show_lines }}
 </p>
 <hr />
 {% endfor %}
