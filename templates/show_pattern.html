@@ -42,8 +42,8 @@
 <h3>Uusi kommentti</h3>
 <form action="/create_comment" method="post">
   <p>
-    Kommentti: <br />
-      <textarea name="comment" rows="5" cols="40" maxlength="500" required></textarea>
+    <label for="comment">Kommentti</label>: <br />
+      <textarea name="comment" id="comment" rows="5" cols="40" maxlength="500" required></textarea>
   </p>
   <input type="hidden" name="pattern_id" value="{{ pattern.id }}" />
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

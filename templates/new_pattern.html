@@ -6,25 +6,25 @@
 <h2>Uusi ohje</h2>
 <form action="/create_pattern" method="post">
   <p>
-    Otsikko: <br />
-    <input type="text" name="title" maxlength="50" required />
+    <label for="title">Otsikko:</label> <br />
+    <input type="text" name="title" id="title" maxlength="50" required />
   </p>
   <p>
-    Sisältö: <br />
-    <textarea name="description" rows="8" cols="60" maxlength="1500" required></textarea>
+    <label for="description">Sisältö:</label> <br />
+    <textarea name="description" id="description" rows="8" cols="60" maxlength="1500" required></textarea>
   </p>
   {% for class in classes %}
   <p>
-    {{ class }}: <br />
+    <label for="class{{ class }}">{{ class }}</label>: <br />
     {% if elements[class] == "select" %}
-    <select name="{{ class }}">
+    <select name="{{ class }}" id="class{{ class }}">
     {% for option in classes[class] %}
       <option value="{{ option }}">{{ option }}</option>
     {% endfor %}
     </select>
     {% else %}
       {% for option in classes[class] %}
-      <input type="{{ elements[class] }}" name="{{ class }}" value="{{ option }}" required/> {{ option }}
+      <input type="{{ elements[class] }}" name="{{ class }}" id="class{{ class }}" value="{{ option }}" required/>{{ option }}
       {% endfor %}
     {% endif %}
   </p>
