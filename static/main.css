@@ -30,6 +30,14 @@ body {
   padding: 0.2em 0.5em;
 }
 
+.info {
+  border: 2px solid cadetblue;
+  margin: 1em;
+  padding: 0.5em;
+  background-color: cadetblue;
+  color: black;
+}
+
 h1,h2 {
   margin: 0;
 }

@@ -24,7 +24,7 @@
     </select>
     {% else %}
       {% for option in classes[class] %}
-      <input type="{{ elements[class] }}" name="{{ class }}" value="{{ option }}" /> {{ option }}
+      <input type="{{ elements[class] }}" name="{{ class }}" value="{{ option }}" required/> {{ option }}
       {% endfor %}
     {% endif %}
   </p>

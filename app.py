@@ -1,7 +1,7 @@
 import secrets
 import sqlite3
 from flask import Flask
-from flask import abort, make_response, redirect, render_template, request, session
+from flask import abort, flash, make_response, redirect, render_template, request, session
 import db
 import config
 import patterns
@@ -101,7 +101,6 @@ def create_pattern():
     user_id = session["user_id"]
 
     all_classes, elements = patterns.get_all_classes()
-
     classes = []
     for one_class in all_classes:
         value = request.form[f"{one_class}"]
@@ -111,6 +110,7 @@ def create_pattern():
             if one_class not in all_classes:
                 abort(403)
             classes.append((f"{one_class}", value))
+
     patterns.add_pattern(title, description, user_id, classes)
 
     return redirect("/")
@@ -155,11 +155,13 @@ def add_image():
         abort(403)
     file = request.files["image"]
     if not file.filename.endswith(".jpg"):
-        return "VIRHE: väärä tiedostomuoto"
+        flash("VIRHE: Lähettämäsi tiedosto ei ole jpg-tiedosto")
+        return redirect("/images/" + str(pattern_id))
 
     image = file.read()
     if len(image) > 100 * 1024:
-        return "VIRHE: liian suuri kuva"
+        flash("VIRHE: Lähettämäsi tiedosto on liian suuri")
+        return redirect("/images/" + str(pattern_id))
 
     patterns.add_image(pattern_id, image)
     return redirect("/images/" + str(pattern_id))
@@ -246,12 +248,14 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        return "VIRHE: salasanat eivät ole samat"
+        flash("VIRHE: Antamasi salasanat eivät ole samat")
+        return redirect("/register")
 
     try:
         users.create_user(username, password1)
     except sqlite3.IntegrityError:
-        return "VIRHE: tunnus on jo varattu"
+        flash("VIRHE: Antamasi tunnus on jo käytössä")
+        return redirect("/register")
 
     return redirect("/login")
 
@@ -271,7 +275,8 @@ def login():
             session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
-            return "VIRHE: väärä tunnus tai salasana"
+            flash("VIRHE: Antamasi tunnus tai salasana on väärä")
+            return redirect("/login")
 
 @app.route("/logout")
 def logout():
